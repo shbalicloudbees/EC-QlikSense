@@ -1,5 +1,5 @@
 ## DO NOT EDIT THIS BLOCK BELOW=== rest client imports starts ===
-package FlowPlugin::ECQlikRESTClient;
+package FlowPlugin::ECQlikSenseRESTClient;
 use strict;
 use warnings;
 use LWP::UserAgent;
@@ -7,12 +7,12 @@ use JSON;
 use Data::Dumper;
 use FlowPDF::Client::REST;
 use FlowPDF::Log;
-## DO NOT EDIT THIS BLOCK ABOVE ^^^=== rest client imports ends, checksum: 4e3eec977af85fbfaa04fc75a3f0ef25 ===
+## DO NOT EDIT THIS BLOCK ABOVE ^^^=== rest client imports ends, checksum: f33270ab40528b8bec6de611d78b9ee9 ===
 # Place for the custom user imports, e.g. use File::Spec
 ## DO NOT EDIT THIS BLOCK BELOW=== rest client starts ===
 =head1
 
-FlowPlugin::ECQlikRESTClient->new('http://endpoint', {
+FlowPlugin::ECQlikSenseRESTClient->new('http://endpoint', {
     auth => {basicAuth => {userName => 'admin', password => 'changeme'}}
 })
 
@@ -21,24 +21,24 @@ FlowPlugin::ECQlikRESTClient->new('http://endpoint', {
 # Generated
 use constant {
     BEARER_PREFIX => 'Bearer',
-    USER_AGENT => 'ECQlikRESTClient REST Client',
+    USER_AGENT => 'ECQlikSenseRESTClient REST Client',
     OAUTH1_SIGNATURE_METHOD =>  'RSA-SHA1' ,
     CONTENT_TYPE => 'application/json'
 };
 
 =pod
 
-Use this method to create a new FlowPlugin::ECQlikRESTClient, e.g.
+Use this method to create a new FlowPlugin::ECQlikSenseRESTClient, e.g.
 
-    my $client = FlowPlugin::ECQlikRESTClient->new($endpoint,
+    my $client = FlowPlugin::ECQlikSenseRESTClient->new($endpoint,
         basicAuth => {userName => 'user', password => 'password'}
     );
 
-    my $client = FlowPlugin::ECQlikRESTClient->new($endpoint,
+    my $client = FlowPlugin::ECQlikSenseRESTClient->new($endpoint,
         bearerAuth => {token => 'token'}
     )
 
-    my $client = FlowPlugin::ECQlikRESTClient->new($endpoint,
+    my $client = FlowPlugin::ECQlikSenseRESTClient->new($endpoint,
         bearerAuth => {token => 'token'},
         proxy => {url => 'proxy url', username => 'proxy user', password => 'password'}
     )
@@ -386,7 +386,79 @@ sub getAppById {
     my $response = $self->makeRequest('GET', $uri, $query, $payload, $headers, \%params);
     return $response;
 }
-## DO NOT EDIT THIS BLOCK ABOVE ^^^=== rest client ends, checksum: 5b46febefaa08ace0ed542321f6b884f ===
+
+# Generated code for the endpoint
+
+# Do not change this code
+
+sub importApp {
+    my ($self, %params) = @_;
+
+    $self->{method} = 'importApp';
+    $self->{methodParameters} = \%params;
+
+    my $uri = "/v1/apps/import";
+    logDebug "URI Template: $uri";
+    $uri = renderOneLineTemplate($uri, %params);
+    logDebug "Rendered URI: $uri";
+
+    my $query = {
+
+    };
+
+    logDebug "Query", $query;
+
+    my $payload = {};
+
+    logDebug($payload);
+
+    $payload = $self->cleanEmptyFields($payload);
+
+    my $headers = {
+    };
+
+    # Creating a request object
+    my $response = $self->makeRequest('POST', $uri, $query, $payload, $headers, \%params);
+    return $response;
+}
+
+# Generated code for the endpoint
+
+# Do not change this code
+
+# appId: in path
+
+sub exportApp {
+    my ($self, %params) = @_;
+
+    $self->{method} = 'exportApp';
+    $self->{methodParameters} = \%params;
+
+    my $uri = "/v1/apps/{{appId}}/export";
+    logDebug "URI Template: $uri";
+    $uri = renderOneLineTemplate($uri, %params);
+    logDebug "Rendered URI: $uri";
+
+    my $query = {
+
+    };
+
+    logDebug "Query", $query;
+
+    my $payload = {};
+
+    logDebug($payload);
+
+    $payload = $self->cleanEmptyFields($payload);
+
+    my $headers = {
+    };
+
+    # Creating a request object
+    my $response = $self->makeRequest('POST', $uri, $query, $payload, $headers, \%params);
+    return $response;
+}
+## DO NOT EDIT THIS BLOCK ABOVE ^^^=== rest client ends, checksum: cf17d0c1f81aea785cf1736f2038d295 ===
 =pod
 
 Use this method to change HTTP::Request object before the request, e.g.

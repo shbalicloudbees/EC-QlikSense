@@ -2,7 +2,7 @@ pluginInfo:
   # This is default sample specification
   # Feel free to change it
   # Call pdk showdoc pluginspec to see the list of available fields and their description
-  pluginName: 'EC-Qlik'
+  pluginName: 'EC-QlikSense'
   version: '1.0.0'
   description: 'Analytics Data Tool'
   author: 'CloudBees'
@@ -51,14 +51,34 @@ procedures:
     methodName: 'getAppById'
     httpMethod: 'GET'
 
+
 -
-  name: Republish Application
-  description: 'Republish a published app to a managed space.'
+  name: Import Application
+  description: 'Imports an app into the system.'
   hasConfig: true
   shell: 'ec-perl'
   parameters:
   -
-    name: fileDataPath
+    name: name
+    documentation: target application
+    required: false
+    type: entry
+    label: Target application
+  # Connects REST endpoint to the plugin procedure
+  restProcedureInfo:
+    url: /v1/apps/import
+    methodName: 'importApp'
+    httpMethod: 'POST' 
+
+
+-
+  name: Export Application
+  description: 'Export a specific app.'
+  hasConfig: true
+  shell: 'ec-perl'
+  parameters:
+  -
+    name: appId
     documentation: application ID
     required: true
     type: entry
@@ -70,6 +90,6 @@ procedures:
       isRestOutputParam: true
   # Connects REST endpoint to the plugin procedure
   restProcedureInfo:
-    url: /rest/api/v1/apps/{{appId}}
-    methodName: 'getAppById'
-    httpMethod: 'GET'    
+    url: /v1/apps/{{appId}}/export
+    methodName: 'exportApp'
+    httpMethod: 'POST' 

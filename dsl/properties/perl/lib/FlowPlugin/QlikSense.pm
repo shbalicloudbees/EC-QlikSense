@@ -1,4 +1,4 @@
-package FlowPlugin::Qlik;
+package FlowPlugin::QlikSense;
 use JSON;
 use strict;
 use warnings;
@@ -20,39 +20,6 @@ sub pluginInfo {
 
 ## === check connection ends ===
 
-# Auto-generated method for the procedure Sample REST Procedure/Sample REST Procedure
-# Add your code into this method and it will be called when step runs
-# Parameter: config
-# Parameter: username
-
-sub sampleRESTProcedure {
-    my ($pluginObject) = @_;
-
-    my $context = $pluginObject->getContext();
-    my $params = $context->getRuntimeParameters();
-
-    my $ECQlikRESTClient = $pluginObject->getECQlikRESTClient;
-    # If you have changed your parameters in the procedure declaration, add/remove them here
-    my %restParams = (
-        'username' => $params->{'username'},
-    );
-    my $response = $ECQlikRESTClient->getUser(%restParams);
-    logInfo("Got response from the server: ", $response);
-
-    my $stepResult = $context->newStepResult;
-
-    $stepResult->apply();
-}
-# This method is used to access auto-generated REST client.
-sub getECQlikRESTClient {
-    my ($self) = @_;
-
-    my $context = $self->getContext();
-    my $config = $context->getRuntimeParameters();
-    require FlowPlugin::ECQlikRESTClient;
-    my $client = FlowPlugin::ECQlikRESTClient->createFromConfig($config);
-    return $client;
-}
 # Auto-generated method for the procedure Get Application Id/Get Application Id
 # Add your code into this method and it will be called when step runs
 # Parameter: config
@@ -64,12 +31,68 @@ sub getApplicationId {
     my $context = $pluginObject->getContext();
     my $params = $context->getRuntimeParameters();
 
-    my $ECQlikRESTClient = $pluginObject->getECQlikRESTClient;
+    my $ECQlikSenseRESTClient = $pluginObject->getECQlikSenseRESTClient;
     # If you have changed your parameters in the procedure declaration, add/remove them here
     my %restParams = (
         'appId' => $params->{'appId'},
     );
-    my $response = $ECQlikRESTClient->getAppById(%restParams);
+    my $response = $ECQlikSenseRESTClient->getAppById(%restParams);
+    logInfo("Got response from the server: ", $response);
+
+    my $stepResult = $context->newStepResult;
+    $stepResult->setOutputParameter('application', encode_json($response));
+
+    $stepResult->apply();
+}
+# This method is used to access auto-generated REST client.
+sub getECQlikSenseRESTClient {
+    my ($self) = @_;
+
+    my $context = $self->getContext();
+    my $config = $context->getRuntimeParameters();
+    require FlowPlugin::ECQlikSenseRESTClient;
+    my $client = FlowPlugin::ECQlikSenseRESTClient->createFromConfig($config);
+    return $client;
+}
+# Auto-generated method for the procedure Import Application/Import Application
+# Add your code into this method and it will be called when step runs
+# Parameter: config
+# Parameter: name
+
+sub importApplication {
+    my ($pluginObject) = @_;
+
+    my $context = $pluginObject->getContext();
+    my $params = $context->getRuntimeParameters();
+
+    my $ECQlikSenseRESTClient = $pluginObject->getECQlikSenseRESTClient;
+    # If you have changed your parameters in the procedure declaration, add/remove them here
+    my %restParams = (
+    );
+    my $response = $ECQlikSenseRESTClient->importApp(%restParams);
+    logInfo("Got response from the server: ", $response);
+
+    my $stepResult = $context->newStepResult;
+
+    $stepResult->apply();
+}
+# Auto-generated method for the procedure Export Application/Export Application
+# Add your code into this method and it will be called when step runs
+# Parameter: config
+# Parameter: appId
+
+sub exportApplication {
+    my ($pluginObject) = @_;
+
+    my $context = $pluginObject->getContext();
+    my $params = $context->getRuntimeParameters();
+
+    my $ECQlikSenseRESTClient = $pluginObject->getECQlikSenseRESTClient;
+    # If you have changed your parameters in the procedure declaration, add/remove them here
+    my %restParams = (
+        'appId' => $params->{'appId'},
+    );
+    my $response = $ECQlikSenseRESTClient->exportApp(%restParams);
     logInfo("Got response from the server: ", $response);
 
     my $stepResult = $context->newStepResult;
