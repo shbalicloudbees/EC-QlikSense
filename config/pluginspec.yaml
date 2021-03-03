@@ -1,0 +1,75 @@
+pluginInfo:
+  # This is default sample specification
+  # Feel free to change it
+  # Call pdk showdoc pluginspec to see the list of available fields and their description
+  pluginName: 'EC-Qlik'
+  version: '1.0.0'
+  description: 'Analytics Data Tool'
+  author: 'CloudBees'
+  supportUrl: 'none'
+  category: 'Utilities'
+  shell: 'ec-perl'
+
+# REST-backed plugin configuration
+configuration:
+  checkConnection: true
+  restConfigInfo:
+    endpointLabel: 'My REST Endpoint'
+    checkConnectionUri: '/user'
+    headers:
+      Accept: 'application/json'
+    authSchemes:
+      basic:
+        userNameLabel: 'Username'
+        passwordLabel: 'Password'
+        description: 'Username and password to connect to ...'
+  hasProxySupport: true
+  hasDebugLevel: true
+
+procedures:
+
+-
+  name: Get Application Id
+  description: 'Retrieves information for a specific app.'
+  hasConfig: true
+  shell: 'ec-perl'
+  parameters:
+  -
+    name: appId
+    documentation: application ID
+    required: true
+    type: entry
+    label: Application ID
+    restParamInfo:
+      in: path
+  outputParameters:
+    - name: application
+      isRestOutputParam: true
+  # Connects REST endpoint to the plugin procedure
+  restProcedureInfo:
+    url: /rest/api/v1/apps/{{appId}}
+    methodName: 'getAppById'
+    httpMethod: 'GET'
+
+-
+  name: Republish Application
+  description: 'Republish a published app to a managed space.'
+  hasConfig: true
+  shell: 'ec-perl'
+  parameters:
+  -
+    name: fileDataPath
+    documentation: application ID
+    required: true
+    type: entry
+    label: Application ID
+    restParamInfo:
+      in: path
+  outputParameters:
+    - name: application
+      isRestOutputParam: true
+  # Connects REST endpoint to the plugin procedure
+  restProcedureInfo:
+    url: /rest/api/v1/apps/{{appId}}
+    methodName: 'getAppById'
+    httpMethod: 'GET'    
